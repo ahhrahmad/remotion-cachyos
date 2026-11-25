@@ -4,6 +4,7 @@ import { CachyIntro } from "./CachyIntro";
 import { IGStory } from "./IGStory";
 import { CachyStory } from "./CachyStory";
 import { CachyPromo } from "./CachyPromo";
+import { CachyLaunch } from "./CachyLaunch";
 
 export const RemotionRoot = () => {
   return (
@@ -40,6 +41,14 @@ export const RemotionRoot = () => {
         fps={30}
         width={1080}
         height={1920}
+      />
+      <Composition
+        id="CachyLaunch"
+        component={CachyLaunch}
+        durationInFrames={900}
+        fps={30}
+        width={1920}
+        height={1080}
       />
     </>
   );

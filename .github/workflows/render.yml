@@ -1,13 +1,18 @@
-name: Render CachyPromo
+name: Render CachyLaunch
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: render-cachylaunch
+  cancel-in-progress: true
+
 jobs:
   render:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,15 +21,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libgbm1 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libxkbcommon0 libpango-1.0-0 libcairo2
+          sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
 
       - name: Install dependencies
         run: npm ci
 
       - name: Render video
-        run: npx remotion render CachyPromo out/CachyPromo.mp4
+        run: npx remotion render CachyLaunch out/CachyLaunch.mp4 --codec=h264 --crf=18 --pixel-format=yuv420p --audio-codec=aac --audio-bitrate=192k
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CachyPromo
-          path: out/CachyPromo.mp4
+          name: CachyLaunch
+          path: out/CachyLaunch.mp4
+          retention-days: 14
