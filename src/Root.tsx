@@ -2,6 +2,7 @@ import { Composition } from "remotion";
 import { MyComposition } from "./Composition";
 import { CachyIntro } from "./CachyIntro";
 import { IGStory } from "./IGStory";
+import { CachyStory } from "./CachyStory";
 
 export const RemotionRoot = () => {
   return (
@@ -18,6 +19,14 @@ export const RemotionRoot = () => {
       <Composition
         id="IGStory"
         component={IGStory}
+        durationInFrames={600}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="CachyStory"
+        component={CachyStory}
         durationInFrames={600}
         fps={30}
         width={1080}
