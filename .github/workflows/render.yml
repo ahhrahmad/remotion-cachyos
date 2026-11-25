@@ -1,4 +1,4 @@
-name: Render CachyIntro
+name: Render IGStory
 
 on:
   push:
@@ -26,5 +26,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CachyIntro
-          path: out/CachyIntro.mp4
+          name: IGStory
+          path: out/IGStory.mp4
