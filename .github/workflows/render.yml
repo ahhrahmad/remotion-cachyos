@@ -1,4 +1,4 @@
-name: Render IGStory
+name: Render CachyIntro
 
 on:
   push:
@@ -21,10 +21,10 @@ jobs:
         run: npm ci
 
       - name: Render video
-        run: npx remotion render IGStory out/IGStory.mp4
+        run: npx remotion render CachyIntro out/CachyIntro.mp4
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: IGStory
-          path: out/IGStory.mp4
+          name: CachyIntro
+          path: out/CachyIntro.mp4
