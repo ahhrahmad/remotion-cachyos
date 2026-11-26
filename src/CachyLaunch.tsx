@@ -532,7 +532,10 @@ const Backdrop: FC<{ frame: number }> = ({ frame }) => {
   );
 };
 
-const Chrome: FC<{ frame: number }> = ({ frame }) => {
+const Chrome: FC<{ frame: number; vertical?: boolean }> = ({
+  frame,
+  vertical = false,
+}) => {
   const fade =
     frame < 690
       ? interpolate(frame, [0, 22], [0, 0.62], clamp)
@@ -545,38 +548,40 @@ const Chrome: FC<{ frame: number }> = ({ frame }) => {
       <div
         style={{
           position: "absolute",
-          top: 46,
-          left: 72,
-          right: 72,
+          top: vertical ? 250 : 46,
+          left: vertical ? 84 : 72,
+          right: vertical ? 84 : 72,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <MarkBadge />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 18,
-            fontFamily: MONO,
-            fontSize: 12,
-            letterSpacing: "0.22em",
-            color: C.muted,
-          }}
-        >
-          <span>PERFORMANCE-FIRST LINUX</span>
-          <span style={{ width: 1, height: 12, background: C.line }} />
-          <span>LAUNCH FILM / 2026</span>
-        </div>
+        <MarkBadge size={vertical ? 24 : 26} />
+        {vertical ? null : (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 18,
+              fontFamily: MONO,
+              fontSize: 12,
+              letterSpacing: "0.22em",
+              color: C.muted,
+            }}
+          >
+            <span>PERFORMANCE-FIRST LINUX</span>
+            <span style={{ width: 1, height: 12, background: C.line }} />
+            <span>LAUNCH FILM / 2026</span>
+          </div>
+        )}
       </div>
 
       <div
         style={{
           position: "absolute",
-          bottom: 44,
-          left: 72,
-          right: 72,
+          bottom: vertical ? 214 : 44,
+          left: vertical ? 84 : 72,
+          right: vertical ? 84 : 72,
           height: 1,
           background: "rgba(142,234,240,0.12)",
         }}
@@ -1135,8 +1140,169 @@ const MarketScene: FC = () => {
 };
 
 /* ------------------------------------------------------------------ */
-/* Scene 2 — the tax                                                   */
+/* Scene 1 — vertical                                                  */
 /* ------------------------------------------------------------------ */
+
+const MarketSceneV: FC = () => {
+  const frame = useCurrentFrame();
+
+  return (
+    <SceneShell
+      dur={SCENE.market.dur}
+      scaleFrom={1.04}
+      scaleTo={1}
+      xFrom={10}
+      xTo={-4}
+    >
+      <div style={{ position: "absolute", left: 84, top: 340, width: 912 }}>
+        <Kicker index="01" title="The ceiling" at={6} />
+
+        <div style={{ marginTop: 28 }}>
+          <KineticLines
+            at={16}
+            fontSize={96}
+            lines={[
+              [
+                { t: "Your" },
+                { t: "CPU" },
+                { t: "is" },
+                { t: "fast.", accent: "cyan" },
+              ],
+              [{ t: "Your" }, { t: "OS" }],
+              [{ t: "isn't.", accent: "violet" }],
+            ]}
+          />
+        </div>
+
+        <div style={{ marginTop: 36 }}>
+          <BodyCopy
+            at={76}
+            width={840}
+            size={26}
+            lines={[
+              "Your hardware is ready. Generic binaries still leave",
+              "performance on the table.",
+            ]}
+          />
+        </div>
+      </div>
+
+      <Reveal
+        at={24}
+        sfx="whoosh"
+        volume={0.13}
+        y={50}
+        x={20}
+        scaleFrom={0.94}
+        blurFrom={10}
+      >
+        <div
+          style={{
+            position: "absolute",
+            left: 84,
+            top: 860,
+            width: 912,
+            height: 760,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              width: 660,
+              height: 660,
+              borderRadius: "50%",
+              border: "1px dashed rgba(120,235,240,0.18)",
+              transform: `rotate(${frame * 0.12}deg)`,
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              width: 560,
+              height: 560,
+              borderRadius: "50%",
+              border: "1px solid rgba(139,92,246,0.16)",
+            }}
+          />
+          <OrbitDot
+            frame={frame}
+            radius={325}
+            speed={0.4}
+            offset={10}
+            color={C.cyan}
+          />
+          <OrbitDot
+            frame={frame}
+            radius={325}
+            speed={0.4}
+            offset={190}
+            color={C.violet}
+          />
+
+          <div style={{ position: "absolute" }}>
+            <SiliconChip frame={frame} start={24} mode="generic" size={540} />
+          </div>
+
+          <Reveal
+            at={58}
+            sfx="pop"
+            volume={0.1}
+            y={12}
+            style={{ position: "absolute", top: 34, right: 8 }}
+          >
+            <div
+              style={{
+                fontFamily: MONO,
+                fontSize: 12,
+                letterSpacing: "0.18em",
+                color: C.violetSoft,
+                border: "1px solid rgba(139,92,246,0.4)",
+                background: "rgba(139,92,246,0.1)",
+                padding: "10px 14px",
+                borderRadius: 999,
+              }}
+            >
+              GENERIC BUILD
+            </div>
+          </Reveal>
+
+          <Reveal
+            at={70}
+            sfx="tick-low"
+            volume={0.08}
+            y={10}
+            style={{ position: "absolute", bottom: 24, left: 30 }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: C.amber,
+                  boxShadow: `0 0 12px ${C.amber}`,
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: MONO,
+                  fontSize: 12,
+                  letterSpacing: "0.18em",
+                  color: C.muted,
+                }}
+              >
+                HEADROOM, UNUSED
+              </span>
+            </div>
+          </Reveal>
+        </div>
+      </Reveal>
+    </SceneShell>
+  );
+};
 
 const TerminalLine: FC<{
   at: number;
@@ -1467,6 +1633,53 @@ const TaxScene: FC = () => {
   );
 };
 
+const TaxSceneV: FC = () => {
+  return (
+    <SceneShell
+      dur={SCENE.tax.dur}
+      scaleFrom={1}
+      scaleTo={1.025}
+      xFrom={0}
+      xTo={-10}
+      yFrom={0}
+      yTo={-6}
+    >
+      <div style={{ position: "absolute", left: 84, top: 340, width: 912 }}>
+        <Kicker index="02" title="The tax" at={7} tint={C.violetSoft} />
+
+        <div style={{ marginTop: 28 }}>
+          <KineticLines
+            at={18}
+            fontSize={96}
+            lines={[
+              [{ t: "Speed" }],
+              [{ t: "shouldn't" }],
+              [{ t: "be" }, { t: "homework.", accent: "violet" }],
+            ]}
+          />
+        </div>
+
+        <div style={{ marginTop: 32 }}>
+          <BodyCopy
+            at={64}
+            width={860}
+            size={25}
+            lines={[
+              "Compile kernels. Patch schedulers. Rebuild every",
+              "package. Then pray the next update doesn't",
+              "break it all.",
+            ]}
+          />
+        </div>
+      </div>
+
+      <div style={{ position: "absolute", left: 110, top: 900 }}>
+        <TerminalWindow />
+      </div>
+    </SceneShell>
+  );
+};
+
 /* ------------------------------------------------------------------ */
 /* Scene 3 — built fast                                                */
 /* ------------------------------------------------------------------ */
@@ -1719,6 +1932,189 @@ const FixScene: FC = () => {
           style={{
             position: "absolute",
             bottom: 12,
+            left: "50%",
+            marginLeft: -124,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              fontFamily: MONO,
+              fontSize: 12,
+              letterSpacing: "0.2em",
+              color: C.cyanSoft,
+              border: "1px solid rgba(0,204,255,0.3)",
+              background: "rgba(0,204,255,0.08)",
+              borderRadius: 999,
+              padding: "11px 18px",
+            }}
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: C.cyan,
+                boxShadow: `0 0 10px ${C.cyan}`,
+              }}
+            />
+            NO MANUAL REBUILDS
+          </div>
+        </Reveal>
+      </div>
+    </SceneShell>
+  );
+};
+
+const FixSceneV: FC = () => {
+  const frame = useCurrentFrame();
+
+  return (
+    <SceneShell
+      dur={SCENE.fix.dur}
+      scaleFrom={1.03}
+      scaleTo={1}
+      xFrom={8}
+      xTo={-4}
+    >
+      <div style={{ position: "absolute", left: 84, top: 340, width: 912 }}>
+        <Kicker index="03" title="Built fast" at={7} tint={C.tealLight} />
+
+        <div style={{ marginTop: 28 }}>
+          <KineticLines
+            at={18}
+            fontSize={96}
+            lines={[
+              [{ t: "Speed,", accent: "teal" }],
+              [{ t: "compiled" }, { t: "in.", accent: "cyan" }],
+            ]}
+          />
+        </div>
+
+        <div style={{ marginTop: 28 }}>
+          <BodyCopy
+            at={52}
+            width={860}
+            size={24}
+            lines={[
+              "CachyOS rebuilds the entire stack for your CPU —",
+              "kernel to packages. The gains are there before",
+              "you tweak a thing.",
+            ]}
+          />
+        </div>
+
+        <div style={{ marginTop: 30 }}>
+          <FeatureRow
+            at={82}
+            label="x86-64-v3 / v4 + Zen4"
+            sub="CPU-native package builds"
+          />
+          <FeatureRow
+            at={94}
+            label="LTO · PGO · BOLT"
+            sub="Optimized core packages"
+          />
+          <FeatureRow
+            at={106}
+            label="EEVDF · BORE · sched-ext"
+            sub="A kernel tuned for response"
+          />
+        </div>
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          left: 84,
+          top: 930,
+          width: 912,
+          height: 660,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            fontFamily: FONT,
+            fontWeight: 900,
+            fontSize: 300,
+            letterSpacing: "-0.08em",
+            color: C.cyan,
+            opacity: 0.045,
+            transform: "translateY(-10px)",
+          }}
+        >
+          v4
+        </div>
+
+        <div
+          style={{
+            position: "absolute",
+            width: 580,
+            height: 580,
+            borderRadius: "50%",
+            border: "1px dashed rgba(46,233,200,0.22)",
+            transform: `rotate(${-frame * 0.18}deg)`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            width: 660,
+            height: 660,
+            borderRadius: "50%",
+            border: "1px solid rgba(139,92,246,0.14)",
+            transform: `rotate(${frame * 0.1}deg)`,
+          }}
+        />
+
+        <OrbitDot
+          frame={frame}
+          radius={310}
+          speed={0.55}
+          offset={20}
+          color={C.cyan}
+        />
+        <OrbitDot
+          frame={frame}
+          radius={350}
+          speed={-0.35}
+          offset={140}
+          color={C.violet}
+        />
+
+        <div style={{ position: "absolute" }}>
+          <Reveal
+            at={16}
+            sfx="whoosh"
+            volume={0.14}
+            y={36}
+            scaleFrom={0.9}
+            blurFrom={10}
+          >
+            <SiliconChip frame={frame} start={16} mode="optimized" size={480} />
+          </Reveal>
+        </div>
+
+        <PackagePill label="kernel" at={44} style={{ left: 24, top: 60 }} />
+        <PackagePill label="glibc" at={54} style={{ right: 8, top: 150 }} />
+        <PackagePill label="mesa" at={64} style={{ left: 38, bottom: 100 }} />
+        <PackagePill label="python" at={74} style={{ right: 18, bottom: 44 }} />
+
+        <Reveal
+          at={92}
+          sfx="chime"
+          volume={0.1}
+          y={16}
+          scaleFrom={0.9}
+          style={{
+            position: "absolute",
+            bottom: 0,
             left: "50%",
             marginLeft: -124,
           }}
@@ -2080,23 +2476,135 @@ const PayoffScene: FC = () => {
   );
 };
 
+const PayoffSceneV: FC = () => {
+  return (
+    <SceneShell
+      dur={SCENE.payoff.dur}
+      scaleFrom={1.03}
+      scaleTo={1}
+      xFrom={0}
+      xTo={-8}
+    >
+      <div style={{ position: "absolute", left: 84, top: 340, width: 912 }}>
+        <Kicker index="04" title="The payoff" at={6} tint={C.cyanSoft} />
+        <div style={{ marginTop: 24 }}>
+          <KineticLines
+            at={16}
+            fontSize={88}
+            lines={[
+              [{ t: "Yours," }],
+              [
+                { t: "out", accent: "cyan" },
+                { t: "of" },
+                { t: "the", accent: "cyan" },
+                { t: "box." },
+              ],
+            ]}
+          />
+        </div>
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          left: 127,
+          top: 620,
+          display: "grid",
+          gridTemplateColumns: "402px 402px",
+          gap: 22,
+        }}
+      >
+        <PayoffCard
+          at={58}
+          index="01"
+          stat="17+"
+          title="desktops & WMs"
+          copy="KDE, GNOME, COSMIC, Hyprland, Niri and more. Pick one at install."
+          icon={<IconGrid />}
+          tint={C.cyan}
+        />
+        <PayoffCard
+          at={68}
+          index="02"
+          stat="2"
+          title="installers"
+          copy="A guided GUI setup, or a CLI that gives you every switch."
+          icon={<IconTerminal />}
+          tint={C.tealLight}
+        />
+        <PayoffCard
+          at={78}
+          index="03"
+          stat="0"
+          title="manual rebuilds"
+          copy="Your stack arrives compiled for your CPU. No homework."
+          icon={<IconChip />}
+          tint={C.violetSoft}
+        />
+        <PayoffCard
+          at={88}
+          index="04"
+          stat="∞"
+          title="rolling updates"
+          copy="Arch repos and the AUR, current. No reinstall treadmill."
+          icon={<IconLoop />}
+          tint={C.cyanSoft}
+        />
+      </div>
+
+      <Reveal
+        at={138}
+        sfx="chime"
+        volume={0.08}
+        y={14}
+        style={{ position: "absolute", left: 127, top: 1400 }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span
+            style={{
+              width: 26,
+              height: 1,
+              background: C.tealLight,
+              boxShadow: `0 0 10px ${C.tealLight}`,
+            }}
+          />
+          <span
+            style={{
+              fontFamily: MONO,
+              fontSize: 14,
+              letterSpacing: "0.16em",
+              color: C.body,
+            }}
+          >
+            EVERYTHING TUNED. NOTHING TO COMPILE.
+          </span>
+        </div>
+      </Reveal>
+    </SceneShell>
+  );
+};
+
 /* ------------------------------------------------------------------ */
 /* Scene 5 — logo reveal                                               */
 /* ------------------------------------------------------------------ */
 
-const Halo: FC<{ frame: number }> = ({ frame }) => {
+const Halo: FC<{ frame: number; top?: number; scale?: number }> = ({
+  frame,
+  top = 364,
+  scale = 1,
+}) => {
   const rings = [
     { size: 360, opacity: 0.24, speed: 0.16 },
     { size: 500, opacity: 0.15, speed: -0.11 },
     { size: 660, opacity: 0.09, speed: 0.07 },
-  ];
+  ].map((ring) => ({ ...ring, size: ring.size * scale }));
 
   return (
     <div
       style={{
         position: "absolute",
         left: "50%",
-        top: 364,
+        top,
         width: 0,
         height: 0,
         pointerEvents: "none",
@@ -2132,21 +2640,21 @@ const Halo: FC<{ frame: number }> = ({ frame }) => {
       ))}
       <OrbitDot
         frame={frame}
-        radius={250}
+        radius={250 * scale}
         speed={0.5}
         offset={30}
         color={C.cyan}
       />
       <OrbitDot
         frame={frame}
-        radius={330}
+        radius={330 * scale}
         speed={-0.3}
         offset={220}
         color={C.violet}
       />
       <OrbitDot
         frame={frame}
-        radius={180}
+        radius={180 * scale}
         speed={0.7}
         offset={120}
         color={C.tealLight}
@@ -2413,11 +2921,108 @@ const RevealScene: FC = () => {
   );
 };
 
+const RevealSceneV: FC = () => {
+  const frame = useCurrentFrame();
+
+  return (
+    <SceneShell dur={SCENE.reveal.dur} fadeOut={0} scaleFrom={1} scaleTo={1.04}>
+      <Halo frame={frame} top={660} scale={1.1} />
+
+      <Sfx at={4} name="whoosh" volume={0.14} />
+      <Sfx at={11} name="tick" volume={0.06} />
+      <Sfx at={18} name="tick" volume={0.06} />
+      <Sfx at={25} name="tick" volume={0.06} />
+      <Sfx at={34} name="pop" volume={0.08} />
+      <Sfx at={42} name="pop" volume={0.08} />
+      <Sfx at={50} name="pop" volume={0.08} />
+
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 510,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <CachyMark size={300} idPrefix="hero" frame={frame} start={4} glow />
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 850,
+          textAlign: "center",
+        }}
+      >
+        <Wordmark at={40} />
+      </div>
+
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1010 }}>
+        <Tagline at={72} />
+      </div>
+
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1100 }}>
+        <UrlPill at={100} />
+      </div>
+
+      <Sfx at={100} name="chime" volume={0.12} />
+
+      <Reveal
+        at={122}
+        sfx="whoosh"
+        volume={0.1}
+        y={0}
+        style={{ position: "absolute", left: 0, right: 0, top: 1215 }}
+      >
+        <div
+          style={{
+            textAlign: "center",
+            fontFamily: MONO,
+            fontSize: 11,
+            letterSpacing: "0.28em",
+            color: C.muted,
+          }}
+        >
+          FREE · OPEN SOURCE · COMMUNITY-DRIVEN
+        </div>
+      </Reveal>
+
+      <Reveal
+        at={140}
+        sfx="chime"
+        volume={0.1}
+        y={0}
+        style={{ position: "absolute", left: 0, right: 0, top: 1300 }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <span
+            style={{
+              fontFamily: FONT,
+              fontSize: 15,
+              letterSpacing: "0.12em",
+              color: C.cyanSoft,
+              textTransform: "uppercase",
+            }}
+          >
+            Download free
+          </span>
+        </div>
+      </Reveal>
+    </SceneShell>
+  );
+};
+
 /* ------------------------------------------------------------------ */
 /* Composition                                                         */
 /* ------------------------------------------------------------------ */
 
-export const CachyLaunch: FC = () => {
+export const CachyLaunch: FC<{ vertical?: boolean }> = ({
+  vertical = false,
+}) => {
   useInter();
   const frame = useCurrentFrame();
 
@@ -2434,22 +3039,24 @@ export const CachyLaunch: FC = () => {
       <Sfx at={4} name="tick-low" volume={0.05} />
 
       <Sequence from={SCENE.market.from} durationInFrames={SCENE.market.dur}>
-        <MarketScene />
+        {vertical ? <MarketSceneV /> : <MarketScene />}
       </Sequence>
       <Sequence from={SCENE.tax.from} durationInFrames={SCENE.tax.dur}>
-        <TaxScene />
+        {vertical ? <TaxSceneV /> : <TaxScene />}
       </Sequence>
       <Sequence from={SCENE.fix.from} durationInFrames={SCENE.fix.dur}>
-        <FixScene />
+        {vertical ? <FixSceneV /> : <FixScene />}
       </Sequence>
       <Sequence from={SCENE.payoff.from} durationInFrames={SCENE.payoff.dur}>
-        <PayoffScene />
+        {vertical ? <PayoffSceneV /> : <PayoffScene />}
       </Sequence>
       <Sequence from={SCENE.reveal.from} durationInFrames={SCENE.reveal.dur}>
-        <RevealScene />
+        {vertical ? <RevealSceneV /> : <RevealScene />}
       </Sequence>
 
-      <Chrome frame={frame} />
+      <Chrome frame={frame} vertical={vertical} />
     </AbsoluteFill>
   );
 };
+
+export const CachyLaunchVertical: FC = () => <CachyLaunch vertical />;

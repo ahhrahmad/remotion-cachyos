@@ -1,18 +1,28 @@
-name: Render CachyLaunch
+name: Render CachyOS
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      composition:
+        description: Composition to render
+        type: choice
+        options:
+          - CachyLaunch
+          - CachyLaunchVertical
+        default: CachyLaunch
 
 concurrency:
-  group: render-cachylaunch
+  group: render-${{ github.event.inputs.composition || 'CachyLaunch' }}
   cancel-in-progress: true
 
 jobs:
   render:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      COMPOSITION: ${{ github.event.inputs.composition || 'CachyLaunch' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,11 +43,11 @@ jobs:
         run: npm ci
 
       - name: Render video
-        run: npx remotion render CachyLaunch out/CachyLaunch.mp4 --codec=h264 --crf=18 --pixel-format=yuv420p --audio-codec=aac --audio-bitrate=192k
+        run: npx remotion render "$COMPOSITION" "out/$COMPOSITION.mp4" --codec=h264 --crf=18 --pixel-format=yuv420p --audio-codec=aac --audio-bitrate=192k
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CachyLaunch
-          path: out/CachyLaunch.mp4
+          name: ${{ env.COMPOSITION }}
+          path: out/${{ env.COMPOSITION }}.mp4
           retention-days: 14
