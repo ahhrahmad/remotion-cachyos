@@ -441,22 +441,22 @@ const PaneBox: FC<{
 const HookScene: FC = () => (
   <Screen right="local" statusLeft="local" statusRight="zsh">
     <Command
-      at={10}
+      at={4}
       y={90}
       path="~/dev"
       cmd={'echo "you live in the terminal"'}
-      cps={34}
+      cps={44}
     />
-    <Big at={50} y={188} size={86}>
+    <Big at={30} y={188} size={86}>
       you live in
     </Big>
-    <Big at={56} y={286} size={86} color={C.green}>
+    <Big at={36} y={286} size={86} color={C.green}>
       the terminal.
     </Big>
-    <Line at={74} y={428} size={27} color={C.dim}>
+    <Line at={54} y={428} size={27} color={C.dim}>
       {"# it shouldn't slow you down."}
     </Line>
-    <Prompt at={96} y={504} path="~/dev" />
+    <Prompt at={74} y={504} path="~/dev" />
   </Screen>
 );
 
@@ -479,6 +479,9 @@ const TabBody: FC<{ tab: number }> = ({ tab }) => {
         <div style={{ color: C.green }}>{" PASS  src/api.test.ts"}</div>
         <div style={{ color: C.green }}>{" PASS  src/db.test.ts"}</div>
         <div style={{ color: C.green }}>{" PASS  src/auth.test.ts"}</div>
+        <div style={{ color: C.green }}>{" PASS  src/mailer.test.ts"}</div>
+        <div style={{ color: C.green }}>{" PASS  src/queue.test.ts"}</div>
+        <div style={{ color: C.green }}>{" PASS  src/cache.test.ts"}</div>
         <div style={{ height: 12 }} />
         <div style={{ color: C.body }}>{" Tests:  24 passed, 24 total"}</div>
         <div style={{ color: C.body }}>{" Time:   1.42 s"}</div>
@@ -499,6 +502,10 @@ const TabBody: FC<{ tab: number }> = ({ tab }) => {
         <div>{" 12:04:12  GET  /feed     200  41ms"}</div>
         <div>{" 12:04:12  POST /post     201  88ms"}</div>
         <div>{" 12:04:13  GET  /feed     200  39ms"}</div>
+        <div>{" 12:04:13  GET  /health   200   2ms"}</div>
+        <div>{" 12:04:14  POST /login    200  64ms"}</div>
+        <div>{" 12:04:14  GET  /feed     200  40ms"}</div>
+        <div>{" 12:04:15  GET  /health   200   3ms"}</div>
         <div style={{ color: C.dim }}>{" ... streaming"}</div>
       </>
     );
@@ -517,6 +524,8 @@ const TabBody: FC<{ tab: number }> = ({ tab }) => {
       <div>{" 2: logs     1 pane"}</div>
       <div style={{ height: 12 }} />
       <div style={{ color: C.dim }}>{" prefix + arrow to switch"}</div>
+      <div style={{ color: C.dim }}>{" prefix + d to detach"}</div>
+      <div style={{ color: C.amber }}>{" 3 sessions to juggle"}</div>
     </>
   );
 };
@@ -536,7 +545,7 @@ const TaxScene: FC = () => {
       statusLeft="tabs: 3"
       statusRight={`context: ${count}`}
     >
-      <Reverse at={4} y={120} h={84} size={42}>
+      <Reverse at={0} y={120} h={84} size={42}>
         3 WINDOWS DEEP
       </Reverse>
 
@@ -659,10 +668,10 @@ const FixScene: FC = () => {
 
   return (
     <Screen right="3 panes" statusLeft="panes: 3" statusRight="multiplexer">
-      <Big at={4} y={8} size={78}>
+      <Big at={0} y={8} size={78}>
         one window.
       </Big>
-      <Big at={10} y={98} size={78} color={C.green}>
+      <Big at={6} y={98} size={78} color={C.green}>
         every host.
       </Big>
 
@@ -837,7 +846,7 @@ const PayoffScene: FC = () => {
 
   return (
     <Screen right="info" statusLeft="wezterm --info" statusRight="gpu">
-      <Command at={8} y={40} path="~/dev" cmd="wezterm --info" cps={32} />
+      <Command at={0} y={40} path="~/dev" cmd="wezterm --info" cps={32} />
 
       <div
         style={{
@@ -851,7 +860,7 @@ const PayoffScene: FC = () => {
       />
 
       {INFO_ROWS.map(([label, value], i) =>
-        frame < 34 + i * 10 ? null : (
+        frame < 24 + i * 10 ? null : (
           <div
             key={label}
             style={{
@@ -877,10 +886,10 @@ const PayoffScene: FC = () => {
         ),
       )}
 
-      <Line at={112} y={890} size={22} color={C.dim}>
+      <Line at={100} y={890} size={22} color={C.dim}>
         {"# one binary. one window. no extra layer."}
       </Line>
-      <Prompt at={124} y={952} path="~/dev" />
+      <Prompt at={112} y={952} path="~/dev" />
     </Screen>
   );
 };
@@ -904,7 +913,7 @@ const RevealScene: FC = () => {
           width: 190,
           height: 190,
           transform: "translateX(-50%)",
-          opacity: frame >= 6 ? 1 : 0,
+          opacity: 1,
         }}
       >
         <Img
@@ -966,10 +975,10 @@ export const WezTermStory: FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg, overflow: "hidden" }}>
-      <Sfx at={10} name="click" volume={0.07} />
-      <Sfx at={36} name="click" volume={0.05} />
-      <Sfx at={50} name="tick-low" volume={0.06} />
-      <Sfx at={56} name="tick-low" volume={0.06} />
+      <Sfx at={4} name="click" volume={0.07} />
+      <Sfx at={30} name="click" volume={0.05} />
+      <Sfx at={36} name="tick-low" volume={0.06} />
+      <Sfx at={54} name="tick-low" volume={0.06} />
       <Sfx at={74} name="tick" volume={0.04} />
 
       <Sfx at={SCENE.tax.from} name="tick" volume={0.05} />
@@ -982,7 +991,7 @@ export const WezTermStory: FC = () => {
       <Sfx at={SCENE.fix.from + 100} name="click" volume={0.06} />
       <Sfx at={SCENE.fix.from + 140} name="tick" volume={0.05} />
 
-      <Sfx at={SCENE.payoff.from + 8} name="click" volume={0.05} />
+      <Sfx at={SCENE.payoff.from} name="click" volume={0.05} />
       {INFO_ROWS.map(([label], i) => (
         <Sfx
           key={label}
