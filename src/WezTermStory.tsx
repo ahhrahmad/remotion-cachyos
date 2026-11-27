@@ -670,8 +670,8 @@ const Prompt: FC<{ path: string; cmd: string; cursor?: ReactNode }> = ({
 
 const HookScene: FC = () => {
   const frame = useCurrentFrame();
-  const command = typed("cargo build --release", frame, 46, 24);
-  const run = typed("./target/release/api", frame, 106, 24);
+  const command = typed("cargo build --release", frame, 36, 30);
+  const run = typed("./target/release/api", frame, 76, 30);
 
   return (
     <SceneShell dur={SCENE.hook.dur} yFrom={8} yTo={-6}>
@@ -721,7 +721,7 @@ const HookScene: FC = () => {
           <div
             style={{
               color: C.muted,
-              opacity: interpolate(frame, [78, 86], [0, 1], clamp),
+              opacity: interpolate(frame, [60, 68], [0, 1], clamp),
             }}
           >
             {"   Compiling api v0.9.0"}
@@ -729,13 +729,13 @@ const HookScene: FC = () => {
           <div
             style={{
               color: C.green,
-              opacity: interpolate(frame, [86, 94], [0, 1], clamp),
+              opacity: interpolate(frame, [66, 74], [0, 1], clamp),
             }}
           >
             {"    Finished `release` in 3.84s"}
           </div>
           <div style={{ marginTop: 14 }}>
-            {frame >= 100 ? (
+            {frame >= 72 ? (
               <Prompt
                 path="~/dev/api"
                 cmd={run}
@@ -746,7 +746,7 @@ const HookScene: FC = () => {
           <div
             style={{
               color: C.cyan,
-              opacity: interpolate(frame, [136, 144], [0, 1], clamp),
+              opacity: interpolate(frame, [102, 110], [0, 1], clamp),
             }}
           >
             {"listening on :3000"}
@@ -962,8 +962,8 @@ const Pane: FC<{
 
 const FixScene: FC = () => {
   const frame = useCurrentFrame();
-  const local = typed("cargo test", frame, 46, 22);
-  const prod = typed("systemctl status api", frame, 72, 22);
+  const local = typed("cargo test", frame, 32, 24);
+  const prod = typed("systemctl status api", frame, 50, 24);
 
   return (
     <SceneShell dur={SCENE.fix.dur} yFrom={8} yTo={-6}>
@@ -1013,7 +1013,7 @@ const FixScene: FC = () => {
                 minHeight: 0,
               }}
             >
-              <Pane label="LOCAL" color={C.green} at={40}>
+              <Pane label="LOCAL" color={C.green} at={28}>
                 {local ? (
                   <div>
                     <span style={{ color: C.green }}>~/dev/api</span>
@@ -1024,7 +1024,7 @@ const FixScene: FC = () => {
                 <div
                   style={{
                     color: C.muted,
-                    opacity: interpolate(frame, [62, 70], [0, 1], clamp),
+                    opacity: interpolate(frame, [50, 58], [0, 1], clamp),
                   }}
                 >
                   {"running 24 tests"}
@@ -1032,13 +1032,13 @@ const FixScene: FC = () => {
                 <div
                   style={{
                     color: C.green,
-                    opacity: interpolate(frame, [68, 76], [0, 1], clamp),
+                    opacity: interpolate(frame, [56, 64], [0, 1], clamp),
                   }}
                 >
                   {"test result: ok"}
                 </div>
               </Pane>
-              <Pane label="PROD" color={C.cyan} at={56}>
+              <Pane label="PROD" color={C.cyan} at={44}>
                 <div style={{ color: C.muted }}>{"ssh prod-02"}</div>
                 {prod ? (
                   <div>
@@ -1050,7 +1050,7 @@ const FixScene: FC = () => {
                 <div
                   style={{
                     color: C.green,
-                    opacity: interpolate(frame, [100, 108], [0, 1], clamp),
+                    opacity: interpolate(frame, [78, 86], [0, 1], clamp),
                   }}
                 >
                   {"active (running)"}
@@ -1058,7 +1058,7 @@ const FixScene: FC = () => {
               </Pane>
             </div>
 
-            <Pane label="LOGS" color={C.amber} at={72}>
+            <Pane label="LOGS" color={C.amber} at={60}>
               <div style={{ color: C.muted }}>
                 {"kubectl logs -f deploy/api"}
               </div>
@@ -1085,7 +1085,7 @@ const FixScene: FC = () => {
           gap: 14,
         }}
       >
-        <Reveal at={108} sfx="tick" volume={0.08} y={14}>
+        <Reveal at={92} sfx="tick" volume={0.08} y={14}>
           <div
             style={{
               display: "flex",
@@ -1112,7 +1112,7 @@ const FixScene: FC = () => {
             GPU-ACCELERATED
           </div>
         </Reveal>
-        <Reveal at={118} sfx="tick" volume={0.08} y={14}>
+        <Reveal at={102} sfx="tick" volume={0.08} y={14}>
           <div
             style={{
               display: "flex",
