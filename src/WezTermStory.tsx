@@ -735,11 +735,13 @@ const HookScene: FC = () => {
             {"    Finished `release` in 3.84s"}
           </div>
           <div style={{ marginTop: 14 }}>
-            <Prompt
-              path="~/dev/api"
-              cmd={run}
-              cursor={<Cursor frame={frame} />}
-            />
+            {frame >= 100 ? (
+              <Prompt
+                path="~/dev/api"
+                cmd={run}
+                cursor={<Cursor frame={frame} />}
+              />
+            ) : null}
           </div>
           <div
             style={{
@@ -960,7 +962,7 @@ const Pane: FC<{
 
 const FixScene: FC = () => {
   const frame = useCurrentFrame();
-  const local = typed("cargo test", frame, 56, 22);
+  const local = typed("cargo test", frame, 46, 22);
   const prod = typed("systemctl status api", frame, 72, 22);
 
   return (
@@ -1012,26 +1014,47 @@ const FixScene: FC = () => {
               }}
             >
               <Pane label="LOCAL" color={C.green} at={40}>
-                <div>
-                  <span style={{ color: C.green }}>~/dev/api</span>
-                  <span style={{ color: C.indigoSoft }}> &gt; </span>
-                  <span style={{ color: C.ink }}>{local}</span>
-                </div>
-                <div style={{ color: C.muted }}>
+                {local ? (
+                  <div>
+                    <span style={{ color: C.green }}>~/dev/api</span>
+                    <span style={{ color: C.indigoSoft }}> &gt; </span>
+                    <span style={{ color: C.ink }}>{local}</span>
+                  </div>
+                ) : null}
+                <div
+                  style={{
+                    color: C.muted,
+                    opacity: interpolate(frame, [62, 70], [0, 1], clamp),
+                  }}
+                >
                   {"running 24 tests"}
                 </div>
-                <div style={{ color: C.green }}>
+                <div
+                  style={{
+                    color: C.green,
+                    opacity: interpolate(frame, [68, 76], [0, 1], clamp),
+                  }}
+                >
                   {"test result: ok"}
                 </div>
               </Pane>
               <Pane label="PROD" color={C.cyan} at={56}>
                 <div style={{ color: C.muted }}>{"ssh prod-02"}</div>
-                <div>
-                  <span style={{ color: C.cyan }}>ubuntu@prod-02</span>
-                  <span style={{ color: C.indigoSoft }}> &gt; </span>
-                  <span style={{ color: C.ink }}>{prod}</span>
+                {prod ? (
+                  <div>
+                    <span style={{ color: C.cyan }}>ubuntu@prod-02</span>
+                    <span style={{ color: C.indigoSoft }}> &gt; </span>
+                    <span style={{ color: C.ink }}>{prod}</span>
+                  </div>
+                ) : null}
+                <div
+                  style={{
+                    color: C.green,
+                    opacity: interpolate(frame, [100, 108], [0, 1], clamp),
+                  }}
+                >
+                  {"active (running)"}
                 </div>
-                <div style={{ color: C.green }}>{"active (running)"}</div>
               </Pane>
             </div>
 
